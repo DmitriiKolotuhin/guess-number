@@ -93,4 +93,4 @@
 - [Composer Documentation](https://getcomposer.org/doc/)
 
 ## Ссылки на пакеты
-- [Packagist пакет GuessNumber]()
+- [Packagist пакет GuessNumber](https://packagist.org/packages/haiven/guess-number)
