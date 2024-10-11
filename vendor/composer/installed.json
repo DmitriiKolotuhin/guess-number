@@ -29,7 +29,7 @@
                     "dev-master": "0.11.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "files": [
                     "lib/cli/cli.php"

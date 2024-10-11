@@ -3,7 +3,8 @@
 namespace Haiven\GuessNumber\View;
 
 function render($game) {
-	echo "Попробуйте угадать число от 1 до {$game->getMaxNumber()}. У вас есть {$game->getMaxAttempts()} попыток. ";
+    echo "Угадайте число от 1 до {$game->getMaxNumber()}. У вас есть {$game->getMaxAttempts()} попыток. ";
+
     if (php_sapi_name() === 'cli') {
         // Обработка ввода из командной строки
         while (true) {
