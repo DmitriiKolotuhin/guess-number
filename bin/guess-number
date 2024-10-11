@@ -4,4 +4,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Haiven\GuessNumber\Controller;
 
-Controller\startGame();
+$maxNumber = isset($argv[1]) ? (int)$argv[1] : 20;
+$maxAttempts = isset($argv[2]) ? (int)$argv[2] : 5;
+$saveToDatabase = in_array('--save', $argv);
+
+Controller\startGame($maxNumber, $maxAttempts, $saveToDatabase);

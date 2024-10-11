@@ -9,11 +9,12 @@
         },
         "files": [
             "src/Controller.php",
-            "src/View.php"
+            "src/View.php",
+			"src/Game.php"
         ]
     },
     "bin": [
-        "bin/guess-number"
+        "bin/guess-number1"
     ],
     "authors": [
         {

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'haiven/guess-number',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'ad9c6277db306ea38648b062fffbd3d25104bd12',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'haiven/guess-number' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'ad9c6277db306ea38648b062fffbd3d25104bd12',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
