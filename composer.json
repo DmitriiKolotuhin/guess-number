@@ -1,15 +1,17 @@
 {
-    "name": "markause/guess-number",
+    "name": "haiven/guess-number",
     "description": "Implementation of the game \"Guess-number\"",
     "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Markause\\GuessNumber\\": "src/"
+            "Haiven\\GuessNumber\\": "src/"
         },
         "files": [
             "src/Controller.php",
-            "src/View.php"
+            "src/View.php",
+			"src/Game.php",
+			"src/Database.php"
         ]
     },
     "bin": [
@@ -17,8 +19,8 @@
     ],
     "authors": [
         {
-            "name": "KrasulinN",
-            "email": "kras.nik.040603@gmail.com"
+            "name": "DmitriiKolotuhin",
+            "email": "haivenspiret@gmail.com"
         }
     ],
     "minimum-stability": "stable",

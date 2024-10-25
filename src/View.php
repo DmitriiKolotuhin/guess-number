@@ -1,6 +1,6 @@
 <?php
 
-namespace Markause\GuessNumber;
+namespace Haiven\GuessNumber;
 
 class View {
     public static function render($game) {

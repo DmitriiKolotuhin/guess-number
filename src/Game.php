@@ -1,6 +1,6 @@
 <?php
 
-namespace Markause\GuessNumber;
+namespace Haiven\GuessNumber;
 
 use function cli\prompt;
 use function cli\line;

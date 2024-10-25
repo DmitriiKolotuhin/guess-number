@@ -2,8 +2,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Markause\GuessNumber\Controller;
-use Markause\GuessNumber\Database;
+use Haiven\GuessNumber\Controller;
+use Haiven\GuessNumber\Database;
 date_default_timezone_set('Europe/Moscow');
 
 $dbPath = __DIR__ . '/../database.sqlite';

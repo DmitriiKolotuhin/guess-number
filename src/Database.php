@@ -1,6 +1,6 @@
 <?php
 
-namespace Markause\GuessNumber;
+namespace Haiven\GuessNumber;
 
 class Database {
     private $db;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Markause\GuessNumber;
+namespace Haiven\GuessNumber;
 
-use Markause\GuessNumber\View;
-use Markause\GuessNumber\Game;
+use Haiven\GuessNumber\View;
+use Haiven\GuessNumber\Game;
 
 class Controller {
     public static function startGame($maxNumber, $maxAttempts, $saveToDatabase = false, $dbPath = null, $playerName = 'Player') {
