@@ -1,9 +1,7 @@
 <?php
 
-namespace Haiven\GuessNumber;
+namespace Markause\GuessNumber;
 
-use Haiven\GuessNumber\View;
-use function Haiven\GuessNumber\View\render;
 use function cli\prompt;
 use function cli\line;
 
@@ -12,24 +10,26 @@ class Game {
     private $maxAttempts;
     private $secretNumber;
     private $attempts;
+    private $attemptsHistory = [];
+    private $playerName;
 
-    public function __construct($maxNumber, $maxAttempts) {
+    public function __construct($maxNumber, $maxAttempts, $playerName = 'Player') {
         $this->maxNumber = $maxNumber;
         $this->maxAttempts = $maxAttempts;
         $this->secretNumber = rand(1, $maxNumber);
         $this->attempts = 0;
+        $this->playerName = $playerName;
     }
 
     public function guess($number) {
         $this->attempts++;
-
-        if ($number == $this->secretNumber) {
-            return 'win';
-        } elseif ($number < $this->secretNumber) {
-            return 'less';
-        } else {
-            return 'greater';
-        }
+        $result = $number == $this->secretNumber ? 'win' : ($number < $this->secretNumber ? 'less' : 'greater');
+        $this->attemptsHistory[] = [
+            'number' => $this->attempts,
+            'guess' => $number,
+            'result' => $result
+        ];
+        return $result;
     }
 
     public function isGameOver() {
@@ -51,29 +51,37 @@ class Game {
     public function getMaxAttempts() {
         return $this->maxAttempts;
     }
-	
-	function play() {
-		if (php_sapi_name() === 'cli') {
-			// Ввод параметров через командную строку
-			$input = prompt("Введите максимальное число и количество попыток (maxNumber, maxAttempts):");
-			$input = trim($input);
-			if (strpos($input, ',') === false) {
-				line("Неверный формат ввода.");
-				return;
-			}
-			list($maxNumber, $maxAttempts) = explode(',', $input);
-			$maxNumber = (int)trim($maxNumber);
-			$maxAttempts = (int)trim($maxAttempts);
-		} else {
-			// Получаем параметры из GET-запроса или используем значения по умолчанию
-			$maxNumber = isset($_GET['maxNumber']) ? (int)$_GET['maxNumber'] : 100;
-			$maxAttempts = isset($_GET['maxAttempts']) ? (int)$_GET['maxAttempts'] : 10;
-		}
 
-		// Создаем экземпляр игры с заданными параметрами
-		$game = new Game($maxNumber, $maxAttempts);
+    public function getAttempts() {
+        return $this->attemptsHistory;
+    }
 
-		// Отображаем игру
-		render($game);
-	}
+    public function getPlayerName() {
+        return $this->playerName;
+    }
+
+    public function play() {
+        line("Угадайте число от 1 до {$this->maxNumber}. У вас есть {$this->maxAttempts} попыток.");
+
+        while (true) {
+            $guess = (int)prompt("Введите вашу догадку: ");
+            $result = $this->guess($guess);
+
+            if ($result === 'win') {
+                line("Поздравляем! Вы угадали число {$this->secretNumber}!");
+                break;
+            } elseif ($result === 'less') {
+                line("Загаданное число больше, чем $guess.");
+            } else {
+                line("Загаданное число меньше, чем $guess.");
+            }
+
+            if ($this->isGameOver()) {
+                line("К сожалению, вы исчерпали все попытки. Загаданное число было {$this->secretNumber}.");
+                break;
+            } else {
+                line("Осталось попыток: {$this->getAttemptsLeft()}.");
+            }
+        }
+    }
 }

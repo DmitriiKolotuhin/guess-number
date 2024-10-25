@@ -1,14 +1,21 @@
 <?php
 
-namespace Haiven\GuessNumber\Controller;
+namespace Markause\GuessNumber;
 
-use Haiven\GuessNumber\View;
-use Haiven\GuessNumber\Game;
+use Markause\GuessNumber\View;
+use Markause\GuessNumber\Game;
 
-function startGame($maxNumber, $maxAttempts, $saveToDatabase = false) {
-	if ($saveToDatabase) {
-        \cli\line("Пока что базы данных не работают.");
+class Controller {
+    public static function startGame($maxNumber, $maxAttempts, $saveToDatabase = false, $dbPath = null, $playerName = 'Player') {
+        if ($saveToDatabase) {
+            $db = new Database($dbPath);
+        }
+
+        $game = new Game($maxNumber, $maxAttempts, $playerName);
+        $game->play();
+
+        if ($saveToDatabase) {
+            $db->saveGame($game);
+        }
     }
-    $game = new Game($maxNumber, $maxAttempts);
-    $game->play();
 }

@@ -1,5 +1,5 @@
 {
-    "name": "haiven/guess-number",
+    "name": "markause/guess-number",
     "description": "Implementation of the game \"Guess-number\"",
     "type": "project",
     "license": "MIT",
@@ -9,8 +9,7 @@
         },
         "files": [
             "src/Controller.php",
-            "src/View.php",
-			"src/Game.php"
+            "src/View.php"
         ]
     },
     "bin": [
@@ -18,8 +17,8 @@
     ],
     "authors": [
         {
-            "name": "DmitriiKolotuhin",
-            "email": "haivenspiret@gmail.com"
+            "name": "KrasulinN",
+            "email": "kras.nik.040603@gmail.com"
         }
     ],
     "minimum-stability": "stable",
