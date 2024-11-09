@@ -5,7 +5,8 @@ namespace Haiven\GuessNumber;
 use function cli\prompt;
 use function cli\line;
 
-class Game {
+class Game
+{
     private $maxNumber;
     private $maxAttempts;
     private $secretNumber;
@@ -13,7 +14,8 @@ class Game {
     private $attemptsHistory = [];
     private $playerName;
 
-    public function __construct($maxNumber, $maxAttempts, $playerName = 'Player') {
+    public function __construct($maxNumber, $maxAttempts, $playerName = 'Player')
+    {
         $this->maxNumber = $maxNumber;
         $this->maxAttempts = $maxAttempts;
         $this->secretNumber = rand(1, $maxNumber);
@@ -21,7 +23,8 @@ class Game {
         $this->playerName = $playerName;
     }
 
-    public function guess($number) {
+    public function guess($number)
+    {
         $this->attempts++;
         $result = $number == $this->secretNumber ? 'win' : ($number < $this->secretNumber ? 'less' : 'greater');
         $this->attemptsHistory[] = [
@@ -32,35 +35,43 @@ class Game {
         return $result;
     }
 
-    public function isGameOver() {
+    public function isGameOver()
+    {
         return $this->attempts >= $this->maxAttempts;
     }
 
-    public function getAttemptsLeft() {
+    public function getAttemptsLeft()
+    {
         return $this->maxAttempts - $this->attempts;
     }
 
-    public function getSecretNumber() {
+    public function getSecretNumber()
+    {
         return $this->secretNumber;
     }
 
-    public function getMaxNumber() {
+    public function getMaxNumber()
+    {
         return $this->maxNumber;
     }
 
-    public function getMaxAttempts() {
+    public function getMaxAttempts()
+    {
         return $this->maxAttempts;
     }
 
-    public function getAttempts() {
+    public function getAttempts()
+    {
         return $this->attemptsHistory;
     }
 
-    public function getPlayerName() {
+    public function getPlayerName()
+    {
         return $this->playerName;
     }
 
-    public function play() {
+    public function play()
+    {
         line("Угадайте число от 1 до {$this->maxNumber}. У вас есть {$this->maxAttempts} попыток.");
 
         while (true) {

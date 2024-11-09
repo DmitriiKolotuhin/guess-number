@@ -2,8 +2,10 @@
 
 namespace Haiven\GuessNumber;
 
-class View {
-    public static function render($game) {
+class View
+{
+    public static function render($game)
+    {
         echo "Угадайте число от 1 до {$game->getMaxNumber()}. У вас есть {$game->getMaxAttempts()} попыток. ";
 
         if (php_sapi_name() === 'cli') {

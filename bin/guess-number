@@ -9,10 +9,26 @@ date_default_timezone_set('Europe/Moscow');
 $dbPath = __DIR__ . '/../database.sqlite';
 $db = new Database($dbPath);
 
-// Проверка на наличие команды --save
-$saveToDatabase = in_array('--save', $argv);
+// Проверка на наличие команды --help
+if (in_array('--help', $argv) || in_array('-h', $argv)) {
+    echo "Игра 'Угадай число'\n";
+    echo "Описание: Программа загадывает число в заданном диапазоне, и ваша задача - угадать это число за ограниченное количество попыток.\n\n";
+    echo "Использование: php guess-number [options]\n";
+    echo "Опции:\n";
+    echo "  --new, -n          Начать новую игру (по умолчанию, если не указаны опции)\n";
+    echo "  --list, -l         Вывести список всех сохраненных игр\n";
+    echo "  --list win, -l win Вывести список всех игр, в которых игрок победил\n";
+    echo "  --list loose, -l loose Вывести список всех игр, в которых игрок проиграл\n";
+    echo "  --top              Показать статистику по игрокам\n";
+    echo "  --replay id, -r id Повторить игру с заданным идентификатором\n";
+    echo "  --help, -h         Показать это сообщение справки\n";
+    exit;
+}
 
-// Если передана команда --save, то выполняем игру с сохранением
+// Проверка на наличие команды --new или -n
+$saveToDatabase = in_array('--new', $argv) || in_array('-n', $argv);
+
+// Если передана команда --new или -n, то выполняем игру с сохранением
 if ($saveToDatabase) {
     $maxNumber = (int)readline("Enter the maximum number for the guessing range: ");
     $maxAttempts = (int)readline("Enter the maximum number of attempts: ");
@@ -24,37 +40,26 @@ if ($saveToDatabase) {
 // Обработка других команд
 if (isset($argv[1])) {
     switch ($argv[1]) {
-        case 'list':
-            $games = $db->getGames();
+        case '--list':
+        case '-l':
+            if (isset($argv[2]) && ($argv[2] === 'win' || $argv[2] === 'loose')) {
+                $resultType = $argv[2] === 'win' ? 'win' : 'lose';
+                $games = $db->getGamesByResult($resultType);
+                $resultMessage = $resultType === 'win' ? "No winning games found.\n" : "No losing games found.\n";
+            } else {
+                $games = $db->getGames();
+                $resultMessage = "No games found.\n";
+            }
+
             if (empty($games)) {
-                echo "No games found.\n";
+                echo $resultMessage;
             } else {
                 foreach ($games as $game) {
                     echo "ID: {$game['id']}, Player: {$game['player_name']}, Date: {$game['date']}, Result: {$game['result']}\n";
                 }
             }
             break;
-        case 'wins':
-            $games = $db->getGamesByResult('win');
-            if (empty($games)) {
-                echo "No winning games found.\n";
-            } else {
-                foreach ($games as $game) {
-                    echo "ID: {$game['id']}, Player: {$game['player_name']}, Date: {$game['date']}, Result: {$game['result']}\n";
-                }
-            }
-            break;
-        case 'losses':
-            $games = $db->getGamesByResult('lose');
-            if (empty($games)) {
-                echo "No losing games found.\n";
-            } else {
-                foreach ($games as $game) {
-                    echo "ID: {$game['id']}, Player: {$game['player_name']}, Date: {$game['date']}, Result: {$game['result']}\n";
-                }
-            }
-            break;
-        case 'stats':
+        case '--top':
             $stats = $db->getPlayerStats();
             if (empty($stats)) {
                 echo "No player stats found.\n";
@@ -64,19 +69,13 @@ if (isset($argv[1])) {
                 }
             }
             break;
-        case 'replay':
-            $games = $db->getGames();
-            if (empty($games)) {
-                echo "No games found.\n";
+        case '--replay':
+        case '-r':
+            if (!isset($argv[2])) {
+                echo "Game ID is required for replay.\n";
                 break;
             }
-
-            echo "Available games:\n";
-            foreach ($games as $game) {
-                echo "ID: {$game['id']}, Player: {$game['player_name']}, Date: {$game['date']}, Result: {$game['result']}\n";
-            }
-
-            $gameId = (int)readline("Enter game ID to replay: ");
+            $gameId = (int)$argv[2];
             $game = $db->getGame($gameId);
             if (!$game) {
                 echo "Game not found.\n";
@@ -90,15 +89,16 @@ if (isset($argv[1])) {
             }
             break;
         default:
-            echo "Unknown command.\n";
+            echo "Unknown command. Use --help for usage information.\n";
             break;
     }
     exit;
 }
 
-// Если не передана команда, то выполняем игру без сохранения
+// Если не передана команда, то выполняем игру с сохранением по умолчанию
+$saveToDatabase = true;
 $maxNumber = (int)readline("Enter the maximum number for the guessing range: ");
 $maxAttempts = (int)readline("Enter the maximum number of attempts: ");
 $playerName = readline("Enter your name: ");
 
-Controller::startGame($maxNumber, $maxAttempts, false, $dbPath, $playerName);
+Controller::startGame($maxNumber, $maxAttempts, $saveToDatabase, $dbPath, $playerName);
